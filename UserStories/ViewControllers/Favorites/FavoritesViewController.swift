@@ -50,8 +50,11 @@ final class FavoritesViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
-        tableView.rx.itemSelected.asDriver().withLatestFrom(viewModel.favoritesBeers.asDriver()) { $1[$0.row] }
-            .debounce(Constant.debounceInterval)
+        tableView.rx.itemSelected.asDriver()
+            .do(onNext: { [unowned self] indexPatrh in
+                self.tableView.deselectRow(at: indexPatrh, animated: true)
+            })
+            .withLatestFrom(viewModel.favoritesBeers.asDriver()) { $1[$0.row] }
             .drive(viewModel.onSelectBeer.inputs)
             .disposed(by: disposeBag)
         

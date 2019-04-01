@@ -73,9 +73,12 @@ final class AllBeersListViewController: UIViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
-        tableView.rx.itemSelected.asDriver().withLatestFrom(viewModel.beers.asDriver()) { $1[$0.row] }
-            .debounce(Constant.debounceInterval)
+        tableView.rx.itemSelected.asDriver()
+            .do(onNext: { [unowned self] indexPatrh in
+                self.tableView.deselectRow(at: indexPatrh, animated: true)
+                self.searchBar.resignFirstResponder()
+            })
+            .withLatestFrom(viewModel.beers.asDriver()) { $1[$0.row] }
             .drive(viewModel.onSelectBeer.inputs)
             .disposed(by: disposeBag)
     }
