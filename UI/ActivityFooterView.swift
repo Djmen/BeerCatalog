@@ -35,7 +35,7 @@ final class ActivityFooterView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
+ //       setup()
     }
     
     private func setup() {
@@ -44,16 +44,11 @@ final class ActivityFooterView: UIView {
         
         let stack = UIStackView(arrangedSubviews: [activityIndicator, infoLabel])
         stack.alignment = .center
-        stack.distribution = .fill
+        stack.distribution = .fillProportionally
         stack.axis = .vertical
         stack.spacing = Constants.spacing
 
-        addSubview(stack)
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        stack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.horizontalPadding).isActive = true
-        stack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Constants.horizontalPadding).isActive = true
-        stack.topAnchor.constraint(greaterThanOrEqualTo: topAnchor, constant: Constants.verticalPadding).isActive = true
+        insertAtCenter(stack)
     }
 
     private func setupLabel() {
